@@ -38,7 +38,11 @@
 		}
 
 		var nContainerWidth = eContainer.outerWidth();
-		var nItemWidth      = this.itemElem.outerWidth( true );
+
+		//get reference again
+		this.itemElem       = $( this.element ).find( '.' + this.settings.itemClass + ':first' );
+		var nItemWidth      = this.itemElem.outerWidth();
+
 		var nPartialElem    = ( ( nContainerWidth  / nItemWidth ) % 1 )  +
 													( nContainerWidth % nItemWidth );
 
