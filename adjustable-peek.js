@@ -142,15 +142,14 @@
 	$.fn.adjustablePeek = function ( options ) {
 
 		return this.each( function ( key, value ) {
-			var element        = $( this );
-			var adjustablePeek = element.data( 'adjustablePeek' );
-
-			if( !adjustablePeek ) {
-				adjustablePeek = new AdjustablePeek( this, options );
-				element.data( 'adjustablePeek', adjustablePeek );
+			var element = $( this );
+			//return early
+			if( element.data( 'adjustablePeek' ) ) {
+				return element.data( 'adjustablePeek' );
 			}
 
-			return adjustablePeek;
+			var adjustablePeek = new AdjustablePeek( this, options );
+			element.data( 'adjustablePeek', adjustablePeek );
 		} );
 	};
 
