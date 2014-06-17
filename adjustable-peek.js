@@ -30,7 +30,6 @@
 
 	AdjustablePeek.prototype.start = function () {
 
-		this.settings.beforeAdjust();
 
 		this.clearInlineStyles();
 
@@ -54,13 +53,20 @@
 		this.nPeek          = ( nPartialElem > 0 ) ?
 													(  ( nPartialElem / nItemWidth ) * 100 ) : 0;
 
-		if( ! this.adjustIfBelowMinPeek( nPartialElem, nActive ) ) {
+		this.settings.beforeAdjust();
+
+		var bAdjusted = this.adjustIfBelowMinPeek( nPartialElem, nActive );
+		if( !bAdjusted ) {
 
 			var nPartialPeek = this.nPeek - this.settings.maxPeek;
 			nPartialElem = nItemWidth * ( nPartialPeek / 100 );
-			this.adjustIfAboveMaxPeek( nPartialElem, nActive );
-
+			bAdjusted = this.adjustIfAboveMaxPeek( nPartialElem, nActive );
 		}
+
+		if( !bAdjusted ) {
+			this.settings.afterAdjust();
+		}
+
 	};
 
 	AdjustablePeek.prototype.clearInlineStyles = function() {
