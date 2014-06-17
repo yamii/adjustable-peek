@@ -21,7 +21,6 @@
 		this.itemElem      = $( this.element ).find( '.' + this.settings.itemClass + ':first' );
 		this.itemElemWidth = this.itemElem.outerWidth();
 
-		this.settings.onInitialize();
 		this.initPeekSettings();
 		this.start();
 
@@ -29,8 +28,6 @@
 	};
 
 	AdjustablePeek.prototype.start = function () {
-
-		this.settings.beforeAdjust();
 
 		this.clearInlineStyles();
 
@@ -61,6 +58,7 @@
 			this.adjustIfAboveMaxPeek( nPartialElem, nActive );
 
 		}
+		this.settings.afterAdjust();
 	};
 
 	AdjustablePeek.prototype.clearInlineStyles = function() {
@@ -110,8 +108,7 @@
 
 		if( ( this.nPeek > 0 ) && this.nPeek < this.settings.minPeek ) {
 			var properties = this.getCSSProps( this.getMargin( nPartialElem, nActive ) );
-			$( this.element ).find( '.' + this.settings.itemClass )
-											.css( properties ).promise().done(  this.settings.afterAdjust );
+			$( this.element ).find( '.' + this.settings.itemClass ).css( properties );
 			bPeek =  true;
 		}
 		return bPeek;
@@ -122,8 +119,7 @@
 		var bPeek = false;
 		if( (this.nPeek > 0 ) && this.nPeek > this.settings.maxPeek ) {
 			var properties = this.getCSSProps( this.getMargin( nPartialElem, nActive ) );
-			$( this.element ).find( '.' + this.settings.itemClass )
-											.css( properties ).promise().done(  this.settings.afterAdjust );
+			$( this.element ).find( '.' + this.settings.itemClass ).css( properties );
 			bPeek = true;
 		}
 		return bPeek;
@@ -169,8 +165,6 @@
 		maxPeek      : MAX_PEEK,
 		maxMargin    : 10,
 		handleResize : true,
-		onInitialize : function() {},
-		beforeAdjust : function() {},
 		afterAdjust  : function() {}
 	};
 
